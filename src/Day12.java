@@ -4,16 +4,15 @@ import java.nio.file.Path;
 
 public class Day12 {
 
+    public static int END = 27;
     public static void main(String[] args) throws IOException {
 
         int[][] map = Files.readAllLines(Path.of("src/input12.txt")).stream()
                 .map(s -> s.chars().map(Day12::parseChar).toArray())
                 .toArray(int[][]::new);
 
-
         int endX = endXY(map)[0];
         int endY = endXY(map)[1];
-
 
         // We start at the end point and travers the map backwards until we reach the starting point S (0).
         System.out.println(findShortestPath(map, new int[map.length][map[0].length], endX, endY, 0));
@@ -52,7 +51,7 @@ public class Day12 {
     private static int parseChar(int c) {
         return switch (c) {
             case 'S' -> 0;
-            case 'E' -> 27;
+            case 'E' -> END;
             default -> c + 1 -'a';
         };
     }
@@ -61,7 +60,7 @@ public class Day12 {
         int[] endXY = new int[2];
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y  < map[0].length; y++) {
-                if (map[x][y] == 27){
+                if (map[x][y] == END){
                     endXY[0] = x;
                     endXY[1] = y;
                 }
@@ -77,8 +76,8 @@ enum Direction {
     DOWN(0, 1),
     RIGHT(1, 0);
 
-    private final int x;
-    private final int y;
+    final int x;
+    final int y;
 
     Direction(int x, int y) {
         this.x = x;
@@ -88,8 +87,9 @@ enum Direction {
     public int getX() {
         return x;
     }
-
     public int getY() {
         return y;
     }
 }
+
+
