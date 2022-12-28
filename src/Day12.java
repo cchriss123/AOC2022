@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.IntStream;
 
 public class Day12 {
 
@@ -10,14 +11,15 @@ public class Day12 {
                 .map(s -> s.chars().map(Day12::parseChar).toArray())
                 .toArray(int[][]::new);
 
+
         int endX = endXY(map)[0];
         int endY = endXY(map)[1];
 
 
-        // We start at the end point and travers the map backwards until we reach the starting point S.
-        System.out.println(findShortestPath(map, new int[map.length][map[0].length], endX, endY, 27));
-        // Same we but search for the first a instead.
-        System.out.println(findShortestPath(map, new int[map.length][map[0].length], endX, endY, 26));
+        // We start at the end point and travers the map backwards until we reach the starting point S (0).
+        System.out.println(findShortestPath(map, new int[map.length][map[0].length], endX, endY, 0));
+        // Same we but search for the first a (1) instead.
+        System.out.println(findShortestPath(map, new int[map.length][map[0].length], endX, endY, 1));
 
     }
 
@@ -33,7 +35,7 @@ public class Day12 {
             int ny = y + direction.getY();
 
             if(nx >= 0 && nx < map.length && ny >= 0 && ny < map[0].length) {
-                boolean canMakeStep = map[nx][ny] <= map[x][y] + 1;
+                boolean canMakeStep = (map[x][y]) <= (map[nx][ny]+1);
                 boolean isShorterPath = (minKnownPath[nx][ny] == 0 || pathToThisSquare < minKnownPath[nx][ny]);
                 if(canMakeStep && isShorterPath) {
                     minKnownPath[nx][ny] = pathToThisSquare;
@@ -50,9 +52,9 @@ public class Day12 {
 
     private static int parseChar(int c) {
         return switch (c) {
-            case 'S' -> 27;
-            case 'E' -> 0;
-            default -> 'z' + 1 - c;
+            case 'S' -> 0;
+            case 'E' -> 27;
+            default -> c + 1 -'a';
         };
     }
 
@@ -60,7 +62,7 @@ public class Day12 {
         int[] endXY = new int[2];
         for (int x = 0; x < map.length; x++) {
             for (int y = 0; y  < map[0].length; y++) {
-                if (map[x][y] == 0){
+                if (map[x][y] == 27){
                     endXY[0] = x;
                     endXY[1] = y;
                 }
