@@ -52,7 +52,7 @@ public class Day12 {
         return switch (c) {
             case 'S' -> 0;
             case 'E' -> END;
-            default -> c + 1 -'a';
+            default -> c + 1 - 'a';
         };
     }
 
